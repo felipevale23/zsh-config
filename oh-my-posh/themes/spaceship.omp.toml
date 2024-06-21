@@ -1,0 +1,186 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = true
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+
+  [[blocks.segments]]
+    type = 'os'
+    style = 'diamond'
+    leading_diamond = ''
+    trailing_diamond = ""
+    background = 'p:black'
+    foreground = 'p:blue'
+    template = '{{ .Icon }}'
+  
+    [[blocks.segments]]
+    type = 'session'
+    style = 'diamond'
+    leading_diamond = ''
+    trailing_diamond = ''    
+    foreground = 'p:white'
+    background = 'p:black'
+    template = '{{if .Root}} 📁 {{.UserName}} {{else}} {{ .UserName }}@{{ .HostName }} {{end}}'
+ 
+  # Path
+  [[blocks.segments]]
+    background = "p:blue"
+    foreground = "p:white"
+    powerline_symbol = ""
+    template = " {{ .Path }} "
+    style = "powerline"
+    type = "path"
+
+    [blocks.segments.properties]
+      exclude_folders = [ "/super/secret/project" ]
+      style = "agnoster_short" 
+      home_icon = '~'  
+      max_depth = 3
+
+  # Git
+  [[blocks.segments]]
+    type = "git"
+    style = "powerline"
+    background = "p:green"
+    foreground = "#193549"
+    background_templates = [
+    "{{ if or (.Working.Changed) (.Staging.Changed) }}#F1FA8C{{ end }}",
+    "{{ if (.Staging.Changed)) }} #F1FA8C {{ end }}",
+    "{{ if (.Working.Changed)) }} #F1FA8C {{ end }}",
+    "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}",
+    "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
+      "{{ if gt .Behind 0 }}#B388FB{{ end }}"
+    ] 
+    foreground_templates = [ "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#ffffff{{ end }}" ]
+    powerline_symbol = ''
+  # template = " {{ .UpstreamIcon }} "
+     template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
+     [blocks.segments.properties]
+        branch_icon = "\uf126 "
+        display_status = true
+        branch_max_length = 10
+        fetch_status = true
+        fetch_stash_count = true    
+        fetch_upstream_icon = true
+        [blocks.segments.properties.untracked_modes]
+          "/Users/user/Projects/oh-my-posh/" = "no"
+
+# Execution time
+[[blocks]]
+  type = 'prompt'
+  alignment = "right"
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'yellow'
+    background = 'transparent'
+    template = '{{ .FormattedMs }}'
+
+    [blocks.segments.properties]
+      threshold = 2000
+
+# Time setup
+[[blocks]]
+  type = 'prompt'
+  alignment = "right"
+  
+  # NodeJS
+  [[blocks.segments]]
+    type = "node"
+    background = "p:green"
+    foreground = "p:black"
+    trailing_diamond = "\ue0b4 "
+    leading_diamond = ""
+    style = "diamond"
+    template = " {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} \ue718 "
+    [blocks.segments.properties]
+      fetch_version = true
+  
+  # Python
+  [[blocks.segments]]
+    type = "python"
+    style = "diamond"
+    trailing_diamond = "\ue0b4 "
+    leading_diamond = ""
+    background = "#FF6471"
+    foreground = "#ffffff"
+    template = " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} "
+    
+  # Lua
+  [[blocks.segments]]
+    type = "lua"
+    style = "diamond"
+    trailing_diamond = "\ue0b4 "
+    leading_diamond = ""
+    foreground = "white"
+    background = "p:cyan"
+    template = "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Major }}{{ end }} "
+ 
+  [[blocks.segments]]
+    type = "docker"
+    style = "diamond"
+    trailing_diamond = "\ue0b4 "
+    leading_diamond = ""
+    foreground = "white"
+    background = "p:cyan" 
+    template = "  {{ .Context }} "
+
+  # Time
+  [[blocks.segments]]
+    type = 'time'
+    style = 'diamond'
+    trailing_diamond = "\ue0b0\u2500\u256e"
+    foreground = 'yellow'
+    background = 'transparent'
+    template = "{{ .CurrentDate | date .Format }} \uf017"
+    [blocks.segments.properties]
+      time_format = '15:04:05'
+
+# Newline for enter code
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground_templates = [
+      "{{if gt .Code 0}}red{{end}}",
+      "{{if eq .Code 0}}magenta{{end}}",
+    ]
+    background = 'transparent'
+    template = '❯'
+
+# Transient Prompt
+[transient_prompt]
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}magenta{{end}}",
+  ]
+  background = 'transparent'
+  template = '❯ '
+
+[secondary_prompt]
+  foreground = 'magenta'
+  background = 'transparent'
+  template = '❯❯ '
+
+# Palette scheme
+[palette]
+  os = '#ACB0BE'
+  black = '#21222C'
+  blue = '#BD93F9'
+  green = '#50FA7B'
+  orange = '#FF6E6E'
+  red = '#FF5555'
+  white = '#F8F8F2'
+  yellow = '#F1FA8C'
+  text = '#494D64'
+  cyan = '#61AFEF'
