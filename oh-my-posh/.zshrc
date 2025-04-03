@@ -32,7 +32,7 @@ zinit cdreplay -q
 
 # To customize prompt
 # eval "$(oh-my-posh init zsh)" # Default
-eval "$(oh-my-posh init zsh --config $HOME/.config/zsh/oh-my-posh/spaceship.omp.toml)"
+eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/themes/spaceship.omp.toml)"
 
 # Keybindings
 bindkey -e
@@ -61,9 +61,10 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Sources
-source /opt/asdf-vm/asdf.sh
 
 # Exports
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
 
 # Aliases
@@ -82,4 +83,3 @@ alias top='btm'
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-
