@@ -14,23 +14,13 @@ final_space = false
   white = '#F8F8F2'
   yellow = '#F1FA8C'
 
-[secondary_prompt]
-  template = '❯❯ '
-  foreground = 'magenta'
-  background = 'transparent'
-
-[transient_prompt]
-  template = '❯ '
-  background = 'transparent'
-  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
-
 [[blocks]]
   type = 'prompt'
   alignment = 'left'
 
   [[blocks.segments]]
     leading_diamond = "\uE0B6"
-    trailing_diamond = "\uE0B4 "
+    trailing_diamond = "\uE0B4"
     template = '{{ .Icon }}'
     foreground = 'p:blue'
     background = 'p:black'
@@ -43,7 +33,7 @@ final_space = false
   [[blocks.segments]]
     leading_diamond = "\uE0B6"
     trailing_diamond = "\uE0B4"
-    template = "{{if .Root}} 📁 {{.UserName}} \e[1m{{.HostName}}\e[0m {{else}}\e[1m{{ .UserName }}@{{ .HostName }}\e[0m{{end}}"
+    template = "{{if .Root}} 📁 {{.UserName}}{{.HostName}}{{else}}{{ .UserName }}@{{ .HostName }}{{end}}"
     foreground = 'p:white'
     background = 'p:black'
     type = 'session'
@@ -53,29 +43,29 @@ final_space = false
       cache_duration = 'none'
 
   [[blocks.segments]]
-    template = ' {{ .Path }} '
-    foreground = 'p:white'
-    powerline_symbol = ''
-    background = 'p:blue'
-    type = 'path'
-    style = 'powerline'
+    trailing_diamond = "\uE0B4"
+    template = "{{ .Path }} "
+    foreground = "p:white"
+    background = "p:blue"
+    type = "path"
+    style = "diamond"
     exclude_folders = ['/super/secret/project']
 
     [blocks.segments.properties]
-      cache_duration = 'none'
-      home_icon = '~'
+      cache_duration = "none"
+      home_icon = " ~"
       max_depth = 3
-      style = 'agnoster_short'
+      style = "agnoster_short"
 
   [[blocks.segments]]
-    template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0e7 {{ .StashCount }}{{ end }}"
-    foreground = '#193549'
-    powerline_symbol = "\uE0B4"
+    trailing_diamond = "\uE0B4"
+    template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0e7 {{ .StashCount }}{{ end }} "
+    foreground = "#193549"
     background = 'p:green'
     type = 'git'
-    style = 'powerline'
+    style = 'diamond'
     foreground_templates = [
-      '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#ffffff{{ end }}']
+      "{{ if and (gt .Ahead 0) (gt .Behind 0) }} #ffffff {{ end }}"]
     background_templates = [
       '{{ if or (.Working.Changed) (.Staging.Changed) }}#F1FA8C{{ end }}',
       '{{ if (.Staging.Changed) }} #F1FA8C {{ end }}',
@@ -98,24 +88,8 @@ final_space = false
         '/Users/user/Projects/oh-my-posh/' = 'no'
 
 [[blocks]]
-  type = 'prompt'
-  alignment = 'right'
-  overflow = 'hidden'
-
-  [[blocks.segments]]
-    template = '{{ .FormattedMs }}'
-    foreground = 'yellow'
-    background = 'transparent'
-    type = 'executiontime'
-    style = 'plain'
-
-    [blocks.segments.properties]
-      cache_duration = 'none'
-      threshold = 2000
-
-[[blocks]]
-  type = 'prompt'
-  alignment = 'right'
+  type = "prompt"
+  alignment = "right"
 
   [[blocks.segments]]
     leading_diamond = "\uE0B6"
@@ -171,20 +145,32 @@ final_space = false
     background = 'p:cyan'
     type = 'docker'
     style = 'diamond'
-
-    [blocks.segments.properties]
-      cache_duration = 'none'
   
   [[blocks.segments]]
     template = "{{.CurrentDate | date .Format}} \uF017"
     foreground = 'yellow'
     background = 'transparent'
     type = 'time'
-    style = 'diamond'
 
     [blocks.segments.properties]
       cache_duration = 'none'
       time_format = '15:04:05'
+
+[[blocks]]
+  type = "prompt"
+  alignment = "right"
+  overflow = "hidden"
+
+  [[blocks.segments]]
+    template = "{{ .FormattedMs }}"
+    foreground = 'yellow'
+    background = 'transparent'
+    type = 'executiontime'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+      threshold = 2000
 
 [[blocks]]
   type = 'prompt'
@@ -200,3 +186,14 @@ final_space = false
 
     [blocks.segments.properties]
       cache_duration = 'none'
+
+[secondary_prompt]
+  template = '❯❯ '
+  foreground = 'magenta'
+  background = 'transparent'
+
+[transient_prompt]
+  template = '❯ '
+  background = 'transparent'
+  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']   
+
